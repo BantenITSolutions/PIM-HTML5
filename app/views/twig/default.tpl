@@ -2,6 +2,6 @@
 
 {% block content %}
 <ul>
-	<li></li>
+	<li>Canvas</li>
 </ul>
 {% endblock %}
