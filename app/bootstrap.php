@@ -19,18 +19,27 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
     'twig.path' => __DIR__.'/views',
 ));
 
+/* Data & callback */
+$app['data'] = array(
+	'title' => 'HTML5+PHP : Beyond ordinary web-application...',
+);
+
 /**
  * Application Routes
  *
  * +-----------------+-----------------------+-----------------------+
  * | METHOD          | PATH/ENDPOINTS        | KETERANGAN            |
  * +-----------------+-----------------------+-----------------------+
- * | GET             | /                     | Default Routes        |
+ * | GET             | /                     | Home (default)        |
+ * | GET             | /geolocation          | Geolocation demo      |
  * +-----------------+-----------------------+-----------------------+
  */
 $app->get('/', function(Request $request) use ($app) {
-	$title = 'Depan - HTML5/PHP';
-	return $app['twig']->render('twig/default.tpl', compact('title'));
+	return $app['twig']->render('twig/default.tpl', $app['data']);
+});
+
+$app->get('/geolocation', function(Request $request) use ($app) {
+	return $app['twig']->render('twig/geolocation.tpl', $app['data']);
 });
 
 /* Jalankan app */
