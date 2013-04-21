@@ -93,21 +93,34 @@ textarea {
    Author's custom styles
    ========================================================================== */
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+.demo-container {
+    box-sizing: border-box;
+    width: 100%;
+    height: 450px;
+    padding: 20px 15px 15px 15px;
+    margin: 15px auto 30px auto;
+    border: 1px solid #DDD;
+    background: white;
+    background: linear-gradient(#F6F6F6 0, white 50px);
+    background: -o-linear-gradient(#F6F6F6 0, white 50px);
+    background: -ms-linear-gradient(#F6F6F6 0, white 50px);
+    background: -moz-linear-gradient(#F6F6F6 0, white 50px);
+    background: -webkit-linear-gradient(#F6F6F6 0, white 50px);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+    -o-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    -ms-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    -moz-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    -webkit-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+.demo-placeholder {
+    width: 100%;
+    height: 100%;
+    font-size: 14px;
+    line-height: 1.2em;
+}
+.experiment canvas {
+    width:100%;
+}
 
 /* ==========================================================================
    Helper classes

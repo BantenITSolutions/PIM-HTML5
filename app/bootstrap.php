@@ -32,6 +32,9 @@ $app['data'] = array(
  * +-----------------+-----------------------+-----------------------+
  * | GET             | /                     | Home (default)        |
  * | GET             | /geolocation          | Geolocation demo      |
+ * | POST            | /georeverse           | Parse geo-info data   |
+ * | GET             | /canvas               | Canvas demo           |
+ * | POST            | /chart                | Random data for chart |
  * +-----------------+-----------------------+-----------------------+
  */
 $app->get('/', function(Request $request) use ($app) {
@@ -40,6 +43,90 @@ $app->get('/', function(Request $request) use ($app) {
 
 $app->get('/geolocation', function(Request $request) use ($app) {
 	return $app['twig']->render('twig/geolocation.tpl', $app['data']);
+});
+
+$app->post('/georeverse', function(Request $request) use ($app) {
+	$infos = $request->get('info');
+
+	if ( ! empty($infos) && isset($infos['results']) 
+	     && ($info = $infos['results']) && !empty($info)) {
+	    $geoinfo = current($info);
+
+	    if (array_key_exists('geometry', $geoinfo) 
+	        && array_key_exists('address_components', $geoinfo)) {
+	        $geometry = $geoinfo['geometry'];
+	        $address_components = $geoinfo['address_components'];
+
+			$latlng = $geometry['location']['lat'].','.$geometry['location']['lng'];
+			$kota = '-';
+			$propinsi = '-';
+			$negara = '-';
+
+			foreach ($address_components as $component) {
+				if (in_array('locality', $component['types'])) {
+			    	$kota = $component['long_name'];
+				} elseif (in_array('administrative_area_level_1', $component['types'])) {
+					$propinsi = $component['long_name'];
+				} elseif (in_array('country', $component['types'])) {
+					$negara = $component['long_name'];
+				}
+			}
+
+			$app['data'] = array(
+				'infos' => array(
+					array('key' => 'Latitude/Longitude', 'val' => $latlng),
+					array('key' => 'Kota', 'val' => $kota),
+					array('key' => 'Propinsi', 'val' => $propinsi),
+					array('key' => 'Negara', 'val' => $negara),
+				),
+			);
+	    }
+	}
+
+	return $app['twig']->render('twig/geoinfo.tpl', $app['data']);
+});
+
+$app->get('/canvas', function(Request $request) use ($app) {
+	$app['js'] = array(
+		'/js/flot.js',
+		'/js/vendor/moo.min.js',
+		'/js/cloth.js',
+	);
+
+	return $app['twig']->render('twig/canvas.tpl', $app['data']);
+});
+
+$app->post('/chart', function(Request $request) use ($app) {
+
+	$min = 0.0000;
+	$max = 100.0000;
+	$range = $max-$min;
+	$data = array();
+	$point = 0;
+	$points = (int) $request->get('points');
+	$currentData = $request->get('currentData');
+
+	if ( ! empty($currentData)) {
+		$currentData = current($currentData) and array_shift($currentData);
+		$data = array_values($currentData);
+	} 
+
+	while ($points > 0) {
+		if (! isset($data[$point])) {
+			// Generate random float number
+			$num = $min + $range * mt_rand(0, 32767)/32767;    
+	        $num = round($num, 17);  
+
+			$data[] = array($point, (float) $num);
+		} else {
+			$data[$point][0] = $data[$point][0] - 1;
+		}
+		
+		$point++;
+		$points--;
+	}
+
+	return $app->json($data);
 });
 
 /* Jalankan app */

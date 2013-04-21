@@ -35,7 +35,11 @@
         <script src="js/bootstrap.min.js"></script>
         <script src="js/plugins.js"></script>
         <script src="js/main.js"></script>
-
+        {% if app.js %}
+        {% for script in app.js %}
+            <script src="{{ script }}"></script>
+        {% endfor %}
+        {% endif %}
         <script>
             {% block inline_scripts %}{% endblock %}
         </script>
