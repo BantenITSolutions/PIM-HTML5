@@ -9,7 +9,7 @@
             <strong>Sorry, It looks as though your browser does not support the canvas tag...</strong> If you can, I suggest that you try Chrome or Safari.
         </canvas>
         <p>Click and drag to move points. Hold down any key to pin them.</p>
-        <p><input type="checkbox" id="constraints" checked="checked"/>Draw Lines &nbsp; <input type="checkbox" id="points" />Draw Points<br/></p>
+        <p class="form-inline"><label class="checkbox"><input type="checkbox" id="constraints" checked="checked"/>Draw Lines</label> &nbsp; <label class="checkbox"><input type="checkbox" id="points" />Draw Points</label><br/></p>
     </div>
     
 	<br/>
