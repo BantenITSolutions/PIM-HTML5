@@ -148,10 +148,10 @@ $app->get('/async', function(Request $request) use ($app) {
 });
 
 $app->post('/detect', function(Request $request) use ($app) {
-	if (isset($_SERVER['HTTP_X_FILENAME'])) {
+	if ($request->server->get('HTTP_X_FILENAME')) {
 		$handler = ASSETS_PATH.'res/face-detect';
-		$file = ASSETS_PATH.'img/temp/'.$_SERVER['HTTP_X_FILENAME'];
-		file_put_contents("$file", file_get_contents("php://input"));
+		$file = ASSETS_PATH.'img/temp/'.$request->server->get('HTTP_X_FILENAME');
+		file_put_contents("$file", $request->getContent());
 
 		$cmd  = $handler.' --input="'.$file.'" --dir="'.ASSETS_PATH.'"';
 		$last = exec($cmd, &$out);
