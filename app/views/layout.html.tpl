@@ -16,6 +16,13 @@
         <link rel="stylesheet" href="css/main.css">
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
+
+        {% if app.css %}
+        {% for css in app.css %}
+            <link rel="stylesheet" href="{{ css }}">
+        {% endfor %}
+        {% endif %}
+
         <script src="js/vendor/modernizr-2.6.2.min.js"></script>
     </head>
     <body>

@@ -1,2 +1,4 @@
 composer.phar
+public/res/face-detect
+public/img/temp/*.jpg
 vendor/*
