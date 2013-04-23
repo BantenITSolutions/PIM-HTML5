@@ -1,6 +1,7 @@
 {
 	"require" : {
 		"silex/silex": "1.0.*@dev",
-		"twig/twig": "v1.12.3"
+		"twig/twig": "v1.12.3",
+		"cboden/ratchet": "v0.2.5"
 	}
 }

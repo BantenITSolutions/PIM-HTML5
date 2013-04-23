@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 /* Global constants */
 define('ROOT_PATH', $_SERVER['DOCUMENT_ROOT']);
+define('APP_PATH', dirname(ROOT_PATH).DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR);
 define('ASSETS_PATH', ROOT_PATH.DIRECTORY_SEPARATOR);
 
 /* Inisialisasi app */
@@ -28,6 +29,26 @@ $app['data'] = array(
 	'title' => 'HTML5+PHP : Beyond ordinary web-application...',
 );
 
+$app['exec'] = function($c) {
+	if (! empty($c['command']))
+	{
+		if (strpos($c['command'], 'server.php') !== false) {
+			if (substr(php_uname(), 0, 7) == "Windows"){ 
+				pclose(popen("start /B ". $c['command'], "r"));  
+			} 
+			else { 
+				exec($c['command'] . " > /dev/null &");   
+			} 
+		} else {
+			ob_start();
+			passthru($c['command'], $res);
+			$out = ob_get_clean();
+
+			return compact('res','out');
+		}
+	}
+};
+
 /**
  * Application Routes
  *
@@ -41,6 +62,7 @@ $app['data'] = array(
  * | POST            | /chart                | Random data for chart |
  * | GET             | /async                | Asynchronous demo     |
  * | POST            | /detect               | Asynchronous detect   |
+ * | GET             | /socket               | Web-Socket demo       |
  * +-----------------+-----------------------+-----------------------+
  */
 $app->get('/', function(Request $request) use ($app) {
@@ -177,6 +199,18 @@ $app->post('/detect', function(Request $request) use ($app) {
 		);
 		return $app->json($data, 404);
 	}
+});
+
+$app->get('/socket', function(Request $request) use ($app) {
+	$app['command'] = 'telnet localhost 8080';
+	$connected = $app['exec'];
+
+	if (stripos($connected['out'], 'connected') === false) {
+		$app['command'] = '../app/bin/server > /dev/null &';
+		$started = $app['exec'];
+	}
+
+	return $app['twig']->render('twig/socket.tpl', $app['data']);
 });
 
 /* Jalankan app */
