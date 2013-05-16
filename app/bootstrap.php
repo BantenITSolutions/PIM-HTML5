@@ -27,6 +27,7 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
 /* Data & callback */
 $app['data'] = array(
 	'title' => 'HTML5+PHP : Beyond ordinary web-application...',
+	'baseUrl'=>'http://html5.demo/',
 );
 
 $app['exec'] = function($c) {
@@ -52,28 +53,42 @@ $app['exec'] = function($c) {
 /**
  * Application Routes
  *
- * +-----------------+-----------------------+-----------------------+
- * | METHOD          | PATH/ENDPOINTS        | KETERANGAN            |
- * +-----------------+-----------------------+-----------------------+
- * | GET             | /                     | Home (default)        |
- * | GET             | /geolocation          | Geolocation demo      |
- * | POST            | /georeverse           | Parse geo-info data   |
- * | GET             | /canvas               | Canvas demo           |
- * | POST            | /chart                | Random data for chart |
- * | GET             | /async                | Asynchronous demo     |
- * | POST            | /detect               | Asynchronous detect   |
- * | GET             | /socket               | Web-Socket demo       |
- * +-----------------+-----------------------+-----------------------+
+ * +-----------------+-----------------------+--------------------------------------+
+ * | METHOD          | PATH/ENDPOINTS        				| KETERANGAN            |
+ * +-----------------+-----------------------+--------------------------------------+
+ * | GET             | /                     				| Home (default)        |
+ * | GET             | /awesome-stuff/geolocation          	| Geolocation demo      |
+ * | POST            | /georeverse           				| Parse geo-info data   |
+ * | GET             | /canvas               				| Canvas demo           |
+ * | POST            | /chart                				| Random data for chart |
+ * | GET             | /async                				| Asynchronous demo     |
+ * | POST            | /detect               				| Asynchronous detect   |
+ * | GET             | /socket               				| Web-Socket demo       |
+ * +-----------------+-----------------------+--------------------------------------+
  */
 $app->get('/', function(Request $request) use ($app) {
-	return $app['twig']->render('twig/default.tpl', $app['data']);
+	return $app['twig']->render('twig/simple/elements.tpl', $app['data']);
 });
 
-$app->get('/geolocation', function(Request $request) use ($app) {
-	return $app['twig']->render('twig/geolocation.tpl', $app['data']);
+
+$app->get('/simple-stuff',function(Request $request) use ($app){
+	return $app['twig']->render('twig/simple/elements.tpl',$app['data']);
 });
 
-$app->post('/georeverse', function(Request $request) use ($app) {
+$app->get('/simple-stuff/elements',function(Request $request) use ($app){
+	return $app['twig']->render('twig/simple/elements.tpl',$app['data']);
+});
+
+
+$app->get('/awesome-stuff',function(Request $request) use ($app){
+	return $app['twig']->render('twig/default.tpl',$app['data']);
+});
+
+$app->get('/awesome-stuff/geolocation', function(Request $request) use ($app) {
+	return $app['twig']->render('twig/awesome/geolocation.tpl', $app['data']);
+});
+
+$app->post('/awesome-stuff/georeverse', function(Request $request) use ($app) {
 	$infos = $request->get('info');
 
 	if ( ! empty($infos) && isset($infos['results']) 
@@ -111,20 +126,20 @@ $app->post('/georeverse', function(Request $request) use ($app) {
 	    }
 	}
 
-	return $app['twig']->render('twig/geoinfo.tpl', $app['data']);
+	return $app['twig']->render('twig/awesome/geoinfo.tpl', $app['data']);
 });
 
-$app->get('/canvas', function(Request $request) use ($app) {
+$app->get('/awesome-stuff/canvas', function(Request $request) use ($app) {
 	$app['js'] = array(
-		'/js/flot.js',
-		'/js/vendor/moo.min.js',
-		'/js/cloth.js',
+		'js/flot.js',
+		'js/vendor/moo.min.js',
+		'js/cloth.js',
 	);
 
-	return $app['twig']->render('twig/canvas.tpl', $app['data']);
+	return $app['twig']->render('twig/awesome/canvas.tpl', $app['data']);
 });
 
-$app->post('/chart', function(Request $request) use ($app) {
+$app->post('/awesome-stuff/chart', function(Request $request) use ($app) {
 
 	$min = 0.0000;
 	$max = 100.0000;
@@ -157,27 +172,29 @@ $app->post('/chart', function(Request $request) use ($app) {
 	return $app->json($data);
 });
 
-$app->get('/async', function(Request $request) use ($app) {
+$app->get('/awesome-stuff/async', function(Request $request) use ($app) {
 	$app['css'] = array(
-		'/css/bootstrap-lightbox.min.css',
+		'css/bootstrap-lightbox.min.css',
 	);
 
 	$app['js'] = array(
-		'/js/bootstrap-lightbox.js',
+		'js/bootstrap-lightbox.js',
 	);
 
-	return $app['twig']->render('twig/async.tpl', $app['data']);
+	return $app['twig']->render('twig/awesome/async.tpl', $app['data']);
 });
 
-$app->post('/detect', function(Request $request) use ($app) {
-	if ($request->server->get('HTTP_X_FILENAME')) {
+$app->post('/awesome-stuff/detect', function(Request $request) use ($app) {
+
+	if ($request->files->get('upload')) {
 		$handler = ASSETS_PATH.'res/face-detect';
-		$file = ASSETS_PATH.'img/temp/'.$request->server->get('HTTP_X_FILENAME');
-		file_put_contents("$file", $request->getContent());
+		$uploaded = $request->files->get('upload');
+		
+		$uploaded->move(ASSETS_PATH.'img/temp/',$uploaded->getClientOriginalName());
+		$file = ASSETS_PATH.'img/temp/'.$request->files->get('upload')->getClientOriginalName();
 
 		$cmd  = $handler.' --input="'.$file.'" --dir="'.ASSETS_PATH.'"';
-		$last = exec($cmd, &$out);
-
+		$last = exec($cmd, $out);
 		if (strpos($last, 'Error:') === false)
 		{
 			$res = array('success' => true);
@@ -195,13 +212,14 @@ $app->post('/detect', function(Request $request) use ($app) {
 	} else {
 		$data = array(
 			'success' => false,
-			'msg' => '404 - The resource you requested is not found.'
+			'msg' => '404 - The resource you requested is not found.',
+			'file'=>$request->server->get('HTTP_X_FILENAME'),
 		);
 		return $app->json($data, 404);
 	}
 });
 
-$app->get('/socket', function(Request $request) use ($app) {
+$app->get('/awesome-stuff/socket', function(Request $request) use ($app) {
 	$app['command'] = 'telnet localhost 8080';
 	$connected = $app['exec'];
 
@@ -210,7 +228,7 @@ $app->get('/socket', function(Request $request) use ($app) {
 		$started = $app['exec'];
 	}
 
-	return $app['twig']->render('twig/socket.tpl', $app['data']);
+	return $app['twig']->render('twig/awesome/socket.tpl', $app['data']);
 });
 
 /* Jalankan app */
