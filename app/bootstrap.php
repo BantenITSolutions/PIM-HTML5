@@ -57,13 +57,18 @@ $app['exec'] = function($c) {
  * | METHOD          | PATH/ENDPOINTS        				| KETERANGAN            |
  * +-----------------+-----------------------+--------------------------------------+
  * | GET             | /                     				| Home (default)        |
+ * | GET             | /simple-stuff						| Awesome Stuff 		|
+ * | GET             | /simple-stuff/elements				| NEW HTML5 Elements	|
+ * | GET             | /simple-stuff/form-elements			| NEW Form  Elements	|
+ * | GET             | /cool-stuff							| Awesome Stuff 		|
+ * | GET             | /awesome-stuff						| Awesome Stuff 		|
  * | GET             | /awesome-stuff/geolocation          	| Geolocation demo      |
- * | POST            | /georeverse           				| Parse geo-info data   |
- * | GET             | /canvas               				| Canvas demo           |
- * | POST            | /chart                				| Random data for chart |
- * | GET             | /async                				| Asynchronous demo     |
- * | POST            | /detect               				| Asynchronous detect   |
- * | GET             | /socket               				| Web-Socket demo       |
+ * | POST            | /awesome-stuff/georeverse           	| Parse geo-info data   |
+ * | GET             | /awesome-stuff/canvas               	| Canvas demo           |
+ * | POST            | /awesome-stuff/chart                	| Random data for chart |
+ * | GET             | /awesome-stuff/async                	| Asynchronous demo     |
+ * | POST            | /awesome-stuff/detect               	| Asynchronous detect   |
+ * | GET             | /awesome-stuff/socket               	| Web-Socket demo       |
  * +-----------------+-----------------------+--------------------------------------+
  */
 $app->get('/', function(Request $request) use ($app) {
@@ -78,6 +83,12 @@ $app->get('/simple-stuff',function(Request $request) use ($app){
 $app->get('/simple-stuff/elements',function(Request $request) use ($app){
 	return $app['twig']->render('twig/simple/elements.tpl',$app['data']);
 });
+
+$app->get('/simple-stuff/form-elements',function(Request $request) use ($app){
+	return $app['twig']->render('twig/simple/form-elements.tpl',$app['data']);
+});
+
+
 
 
 $app->get('/awesome-stuff',function(Request $request) use ($app){

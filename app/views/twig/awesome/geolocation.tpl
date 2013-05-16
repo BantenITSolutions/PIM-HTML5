@@ -38,7 +38,7 @@ $(function(){
 				// Save and get parsed data
 				$.ajax({
 					type:"POST",
-					url:"/georeverse",
+					url:"/awesome-stuff/georeverse",
 					data:{info:data},
 					success:function(location) {
 						$('<img src="'+ map.format(lat.toFixed(6)+"",lng.toFixed(6)+"") +'">').load(function() {
