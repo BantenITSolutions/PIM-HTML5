@@ -88,7 +88,13 @@ $app->get('/simple-stuff/form-elements',function(Request $request) use ($app){
 	return $app['twig']->render('twig/simple/form-elements.tpl',$app['data']);
 });
 
+$app->get('/simple-stuff/media',function(Request $request) use ($app){
+	return $app['twig']->render('twig/simple/media.tpl',$app['data']);
+});
 
+$app->get('/simple-stuff/transition',function(Request $request) use ($app){
+	return $app['twig']->render('twig/simple/transition.tpl',$app['data']);
+});
 
 
 $app->get('/awesome-stuff',function(Request $request) use ($app){
