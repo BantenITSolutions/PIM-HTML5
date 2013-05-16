@@ -69,6 +69,14 @@ $app->get('/', function(Request $request) use ($app) {
 	return $app['twig']->render('twig/default.tpl', $app['data']);
 });
 
+$app->get('/awesome-stuff',function(Request $request) use ($app){
+	return $app['twig']->render('twig/default.tpl',$app['data']);
+});
+
+$app->get('/simple-stuff',function(Request $request) use ($app){
+	return $app['twig']->render('twig/simple.tpl',$app['data']);
+});
+
 $app->get('/geolocation', function(Request $request) use ($app) {
 	return $app['twig']->render('twig/geolocation.tpl', $app['data']);
 });
@@ -170,13 +178,14 @@ $app->get('/async', function(Request $request) use ($app) {
 });
 
 $app->post('/detect', function(Request $request) use ($app) {
+
 	if ($request->server->get('HTTP_X_FILENAME')) {
 		$handler = ASSETS_PATH.'res/face-detect';
 		$file = ASSETS_PATH.'img/temp/'.$request->server->get('HTTP_X_FILENAME');
 		file_put_contents("$file", $request->getContent());
 
 		$cmd  = $handler.' --input="'.$file.'" --dir="'.ASSETS_PATH.'"';
-		$last = exec($cmd, &$out);
+		$last = exec($cmd, $out);
 
 		if (strpos($last, 'Error:') === false)
 		{
@@ -195,7 +204,8 @@ $app->post('/detect', function(Request $request) use ($app) {
 	} else {
 		$data = array(
 			'success' => false,
-			'msg' => '404 - The resource you requested is not found.'
+			'msg' => '404 - The resource you requested is not found.',
+			'file'=>$request->server->get('HTTP_X_FILENAME'),
 		);
 		return $app->json($data, 404);
 	}

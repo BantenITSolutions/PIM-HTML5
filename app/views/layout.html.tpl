@@ -25,15 +25,14 @@
 
         <script src="js/vendor/modernizr-2.6.2.min.js"></script>
     </head>
-    <body>
+    <body style="padding-top:40px;">
         <!--[if lt IE 7]>
             <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
         <![endif]-->
-
-        <div class="container-fluid">
+        {% include "twig/header.tpl" %}
+        <div class="container">
             <br/>
             <div class="row-fluid">
-                {% include "twig/sidebar.tpl" %}
                 {% block content %}{% endblock %}
             </div>
         </div>

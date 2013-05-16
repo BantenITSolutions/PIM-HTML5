@@ -92,7 +92,8 @@ $(function(){
 		var files = e.originalEvent.target.files || e.originalEvent.dataTransfer.files;
 		var file = files[0];
 		var xhr = new XMLHttpRequest();
-
+		var formData = new FormData();
+		formData.append('upload',file);
 		if (file.type != "image/jpg" && file.type != "image/jpeg" && file.type != "image/png" ) {
 			show_message("Please upload only JPG and PNG images.", false);
 			return;
@@ -112,7 +113,8 @@ $(function(){
 
 		xhr.open("POST", form.attr("action"), true);
 		xhr.setRequestHeader("X_FILENAME", file.name);
-		xhr.send(file);
+
+		xhr.send(formData);
 
 		show_page(progress);
 	}
