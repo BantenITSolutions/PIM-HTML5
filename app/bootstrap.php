@@ -101,6 +101,26 @@ $app->get('/simple-stuff/animation',function(Request $request) use ($app){
 });
 
 
+$app->get('/cool-stuff',function(Request $request) use ($app){
+	return $app['twig']->render('twig/cool/offline.tpl',$app['data']);
+});
+
+$app->get('/cool-stuff/offline',function(Request $request) use ($app){
+	return $app['twig']->render('twig/cool/offline.tpl',$app['data']);
+});
+
+$app->get('/cool-stuff/preview',function(Request $request) use ($app){
+	return $app['twig']->render('twig/cool/preview.tpl',$app['data']);
+});
+
+$app->get('/cool-stuff/dirupload',function(Request $request) use ($app){
+	return $app['twig']->render('twig/cool/dirupload.tpl',$app['data']);
+});
+
+$app->get('/cool-stuff/history',function(Request $request) use ($app){
+	return $app['twig']->render('twig/cool/history.tpl',$app['data']);
+});
+
 
 $app->get('/awesome-stuff',function(Request $request) use ($app){
 	return $app['twig']->render('twig/default.tpl',$app['data']);
