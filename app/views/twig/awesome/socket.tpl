@@ -61,7 +61,9 @@ $(function(){
 		username = prompt("Please enter your name:", "Web socket Noob")
 
 		if (username) {
-			conn = new WebSocket('ws://localhost:8080')
+			var host = location.hostname;
+			console.log(host);
+			conn = new WebSocket('ws://'+host+':8080')
 
 			conn.onopen = function(e) {
 				// Connection is established
