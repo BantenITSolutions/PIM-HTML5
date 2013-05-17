@@ -30,6 +30,12 @@
 				</div>
 			</div>
 			<div class="control-group">
+				<label class="control-label">Date</label>
+				<div class="controls">
+					<input type="date" name="name" min="2" max="10" step="2" />
+				</div>
+			</div>
+			<div class="control-group">
 				<label class="control-label">Color</label>
 				<div class="controls">
 					<input type="color" name="name"/>
