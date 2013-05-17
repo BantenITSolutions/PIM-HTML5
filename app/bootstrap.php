@@ -96,6 +96,11 @@ $app->get('/simple-stuff/transition',function(Request $request) use ($app){
 	return $app['twig']->render('twig/simple/transition.tpl',$app['data']);
 });
 
+$app->get('/simple-stuff/animation',function(Request $request) use ($app){
+	return $app['twig']->render('twig/simple/animation.tpl',$app['data']);
+});
+
+
 
 $app->get('/awesome-stuff',function(Request $request) use ($app){
 	return $app['twig']->render('twig/default.tpl',$app['data']);
