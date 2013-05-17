@@ -62,7 +62,6 @@ $(function(){
 
 		if (username) {
 			var host = location.hostname;
-			console.log(host);
 			conn = new WebSocket('ws://'+host+':8080')
 
 			conn.onopen = function(e) {
@@ -89,7 +88,6 @@ $(function(){
 					message,
 					date = new Date(),
 					data_arr = e.data.split('.')
-				console.log(e.data);
 				if (data_arr.length == 2) {
 					type = data_arr[0],
 					message = data_arr[1];

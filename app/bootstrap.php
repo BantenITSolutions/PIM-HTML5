@@ -114,11 +114,12 @@ $app->get('/cool-stuff/preview',function(Request $request) use ($app){
 });
 
 $app->get('/cool-stuff/dirupload',function(Request $request) use ($app){
+	$app['js'] = array('js/jquery.tree.js');
 	return $app['twig']->render('twig/cool/dirupload.tpl',$app['data']);
 });
 
-$app->get('/cool-stuff/history',function(Request $request) use ($app){
-	return $app['twig']->render('twig/cool/history.tpl',$app['data']);
+$app->get('/cool-stuff/canvas-animation',function(Request $request) use ($app){
+	return $app['twig']->render('twig/cool/canvas-animation.tpl',$app['data']);
 });
 
 
