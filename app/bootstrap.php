@@ -27,7 +27,7 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
 /* Data & callback */
 $app['data'] = array(
 	'title' => 'HTML5+PHP : Beyond ordinary web-application...',
-	'baseUrl'=>'http://html5.demo/',
+	'baseUrl'=> 'http://'.$_SERVER['HTTP_HOST'].'/',
 );
 
 $app['exec'] = function($c) {
