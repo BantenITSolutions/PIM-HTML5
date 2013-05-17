@@ -129,7 +129,7 @@ CanvasSprite.prototype.tick = function(time) {
   window.webkitRequestAnimationFrame(this.tick.bind(this), this.canvas);
 };
       var output = document.querySelector('#output');
-      var demo = new CanvasSprite(output, 800, 250,
+      var demo = new CanvasSprite(output, 280, 300,
                                   '/img/spritesheet.png',
                                   '/res/clouds.ogv');
 {% endblock %}
