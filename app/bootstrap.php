@@ -3,6 +3,8 @@
  * Bootstrap aplikasi
  *
  * @author Taufan Aditya <toopay@taufanaditya.com>
+ * @author Moch. Gufron <mgufrone@yahoo.com>
+ * @author Glen Matiita <glend.maatita@facebook.com>
  */
 
 /* Composer Autoload */
