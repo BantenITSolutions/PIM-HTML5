@@ -70,6 +70,7 @@ $app['exec'] = function($c) {
  * | GET             | /awesome-stuff                       | Awesome Stuff         |
  * | GET             | /awesome-stuff/geolocation           | Geolocation demo      |
  * | POST            | /awesome-stuff/georeverse            | Parse geo-info data   |
+ * | GET             | /awesome-stuff/camera                | Device API demo       |
  * | GET             | /awesome-stuff/canvas                | Canvas demo           |
  * | POST            | /awesome-stuff/chart                 | Random data for chart |
  * | GET             | /awesome-stuff/async                 | Asynchronous demo     |
@@ -105,7 +106,6 @@ $app->get('/simple-stuff/transition',function(Request $request) use ($app){
 $app->get('/simple-stuff/animation',function(Request $request) use ($app){
     return $app['twig']->render('twig/simple/animation.tpl',$app['data']);
 });
-
 
 $app->get('/cool-stuff',function(Request $request) use ($app){
     return $app['twig']->render('twig/cool/desktop-notification.tpl',$app['data']);
@@ -176,6 +176,10 @@ $app->post('/awesome-stuff/georeverse', function(Request $request) use ($app) {
     }
 
     return $app['twig']->render('twig/awesome/geoinfo.tpl', $app['data']);
+});
+
+$app->get('/awesome-stuff/camera',function(Request $request) use ($app){
+    return $app['twig']->render('twig/awesome/camera.tpl',$app['data']);
 });
 
 $app->get('/awesome-stuff/canvas', function(Request $request) use ($app) {
